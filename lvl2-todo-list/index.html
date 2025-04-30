@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level-2 To-Do List</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="todo-container">
+        <h1>Level 2: To-Do List (LocalStorage + Progress)</h1>
+
+        <!-- Form untuk tambah task -->
+        <form id="todo-form">
+          <input type="text" id="todo-input" placeholder="Add a Task Here..." />
+          <button type="submit" id="add-todo">Add Task!</button>
+        </form>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <p id="progress-text">0% Completed</p>
+        </div>
+
+        <!-- Daftar Task -->
+        <ul id="todo-list"></ul>
+      </div>
+    </div>
+
+    <script type="module" src="scripts/app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+#todo-input {
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#todo-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+#add-todo {
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#add-todo:hover {
+  background-color: #2980b9;
+}
+
+#todo-list {
+  list-style: none;
+}
+
+#todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background-color: #f7f7f7;
+  border-left: 5px solid #3498db;
+  border-radius: 8px;
+  transition: 0.3s ease;
+  gap: 10px;
+  
+}
+
+.todo-item {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+#todo-list li:hover {
+  background-color: #e3f2fd;
+}
+.task-number {
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+.task-text {
+  flex: 1;
+  text-align: left;
+  word-break: break-word;
+  
+}
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  #add-todo {
+    width: 100%;
+  }
+}

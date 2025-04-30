@@ -1,0 +1,8 @@
+# hide .env on github
+.env
+# hide node_modules on github
+node_modules
+
+# hide packages
+package-lock.json
+package.json
