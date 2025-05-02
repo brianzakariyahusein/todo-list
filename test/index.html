@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drag & Drop Task</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>To-Do List Drag & Drop</h1>
+  <div class="container">
+    <div class="column" id="undone">
+      <h2>Undone</h2>
+    </div>
+    <div class="column" id="in-progress">
+      <h2>In Progress</h2>
+    </div>
+    <div class="column" id="done">
+      <h2>Done</h2>
+    </div>
+  </div>
+
+  <div class="task" draggable="true">Belajar HTML</div>
+  <div class="task" draggable="true">Kerjakan PR Matematika</div>
+  <div class="task" draggable="true">Olahraga 30 Menit</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
