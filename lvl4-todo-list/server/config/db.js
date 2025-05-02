@@ -1,12 +1,14 @@
-const mongoose = require('mongoose');
+require("dotenv").config();
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/level4-todo-list');
-    console.log('MongoDB Connected on mongodb://localhost:27017/level4-todo-list');
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
+    console.log("MONGO_URI:", process.env.MONGO_URI); // Log the MongoDB URI for debugging
   } catch (error) {
-    console.error(error.message);
-    process.exit(1); // Exit if error
+    console.error("MongoDB connection failed:", error.message);
+    process.exit(1);
   }
 };
 
