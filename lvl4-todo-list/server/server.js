@@ -1,12 +1,22 @@
-const express = require('express');
-const connectDB = require('./config/db');
-const todoRoutes = require('./routes/todoRoute');
+require("dotenv").config({path: "../.env"}); // Adjust the path to your .env file if necessary
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db");
+const taskRoutes = require("./routes/todoRoute");
 
 const app = express();
-connectDB();
+const PORT = process.env.PORT || 5100;
 
+// Middleware
+app.use(cors());
 app.use(express.json());
-app.use('/api/todos', todoRoutes);
 
-const PORT = 5100;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Routes
+app.use("/api/todos", taskRoutes);
+
+// Connect DB and start server
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+});
