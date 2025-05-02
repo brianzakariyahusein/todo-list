@@ -1,82 +1,57 @@
-const API_URL = "http://localhost:5100/api/todos";
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("todo-form");
+  const titleInput = document.getElementById("todo-title");
+  const descriptionInput = document.getElementById("todo-description");
+  const prioritySelect = document.getElementById("todo-priority");
+  const columns = document.querySelectorAll(".task-status");
 
-// Select elements
-const todoForm = document.getElementById("todo-form");
-const todoTitle = document.getElementById("todo-title");
-const todoDescription = document.getElementById("todo-description");
-const todoStatus = document.getElementById("todo-status");
-const todoPriority = document.getElementById("todo-priority");
-const todoList = document.getElementById("todo-list");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const title = titleInput.value.trim();
+    const description = descriptionInput.value.trim();
+    const priority = prioritySelect.value;
 
-// Fetch and display todos
-async function fetchTodos() {
-  try {
-    const response = await fetch(API_URL);
-    const data = await response.json();
-    todoList.innerHTML = "";
-    if (Array.isArray(data.todos)) {
-      data.todos.forEach((todo) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <div>
-            <strong>${todo.title}</strong>
-            <p>${todo.description || "No description"}</p>
-            <span>Status: ${todo.status} | Priority: ${todo.priority}</span>
-          </div>
-          <button onclick="deleteTodo('${todo._id}')">Delete</button>
-        `;
-        todoList.appendChild(li);
-      });
-    } else {
-      console.error("Invalid data format: todos is not an array");
+    if (!title) {
+      alert("Task title is required!");
+      return;
     }
-  } catch (error) {
-    console.error("Failed to fetch todos:", error);
-  }
-}
 
-// Add a new todo
-todoForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const newTodo = {
-    title: todoTitle.value,
-    description: todoDescription.value,
-    status: todoStatus.value,
-    priority: todoPriority.value,
-  };
+    const task = createTaskElement(title, description, priority);
+    document.getElementById("undone").appendChild(task);
 
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTodo),
+    form.reset();
+  });
+
+  columns.forEach((column) => {
+    column.addEventListener("dragover", (e) => {
+      e.preventDefault();
     });
-    if (response.ok) {
-      fetchTodos(); // Refresh the list
-      todoForm.reset(); // Clear the form
-    } else {
-      console.error("Failed to add todo");
-    }
-  } catch (error) {
-    console.error("Error adding todo:", error);
-  }
+
+    column.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const taskId = e.dataTransfer.getData("text/plain");
+      const task = document.getElementById(taskId);
+      column.appendChild(task);
+    });
+  });
 });
 
-// Delete a todo
-async function deleteTodo(id) {
-  try {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      fetchTodos(); // Refresh the list
-    } else {
-      console.error("Failed to delete todo");
-    }
-  } catch (error) {
-    console.error("Error deleting todo:", error);
-  }
-}
+function createTaskElement(title, description, priority) {
+  const taskId = `task-${Date.now()}`;
+  const task = document.createElement("div");
+  task.className = "task";
+  task.id = taskId;
+  task.draggable = true;
 
-// Initial fetch
-fetchTodos();
+  task.innerHTML = `
+    <h4>${title}</h4>
+    <p>${description || "No description"}</p>
+    <small>Priority: ${priority}</small>
+  `;
+
+  task.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", taskId);
+  });
+
+  return task;
+}
