@@ -1,19 +1,46 @@
-// controllers/todoController.js
+const Task = require("../models/Todo");
 
-const Todo = require("../models/Todo");
-
-// CREATE: Add new todo
-const createTodo = async (req, res) => {
+exports.getTasks = async (req, res) => {
   try {
-    const todo = new Todo(req.body);
-    const savedTodo = await todo.save();
-    res.status(201).json(savedTodo);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    const tasks = await Task.find();
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-// Export all functions
-module.exports = {
-  createTodo,
+exports.createTask = async (req, res) => {
+  try {
+    const { title, description, priority, status } = req.body;
+    const newTask = new Task({ title, description, priority, status });
+    await newTask.save();
+    res.status(201).json(newTask);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+exports.updateTaskStatus = async (req, res) => {
+  try {
+    const { status } = req.body; // Ambil status baru dari request body
+    console.log("Task ID:", req.params.id); // Log ID task
+    console.log("New Status:", status); // Log status baru
+
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id, // ID task dari parameter URL
+      { status }, // Update hanya status
+      { new: true } // Kembalikan task yang sudah diperbarui
+    );
+
+    if (!updatedTask) {
+      console.log("Task not found");
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    console.log("Task updated:", updatedTask); // Log task yang diperbarui
+    res.status(200).json(updatedTask);
+  } catch (err) {
+    console.error("Error updating task status:", err.message); // Log error
+    res.status(500).json({ message: err.message });
+  }
 };
