@@ -2,68 +2,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("todo-form");
   const titleInput = document.getElementById("todo-title");
   const descriptionInput = document.getElementById("todo-description");
-  const prioritySelect = document.getElementById("todo-priority");
-  const columns = document.querySelectorAll(".task-status");
+  const priorityInput = document.getElementById("todo-priority");
+
+  const statusContainers = {
+    pending: document.getElementById("pending"),
+    "in-progress": document.getElementById("in-progress"),
+    completed: document.getElementById("completed")
+  };
+
+  const renderTask = (task) => {
+    const taskEl = document.createElement("div");
+    taskEl.className = "task";
+    taskEl.innerHTML = `
+      <h4>${task.title}</h4>
+      <p>${task.description}</p>
+      <small>Priority: ${task.priority}</small>
+    `;
+    statusContainers[task.status].appendChild(taskEl);
+  };
+
+  const fetchTasks = async () => {
+    const res = await fetch("http://localhost:3000/api/tasks");
+    const data = await res.json();
+    data.forEach(renderTask);
+  };
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const title = titleInput.value.trim();
-    const description = descriptionInput.value.trim();
-    const priority = prioritySelect.value;
+    const task = {
+      title: titleInput.value,
+      description: descriptionInput.value,
+      priority: priorityInput.value,
+      status: "pending"
+    };
 
-    if (!title) {
-      alert("Task title is required!");
-      return;
-    }
+    const res = await fetch("http://localhost:3000/api/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(task)
+    });
 
-    const task = createTaskElement(title, description, priority);
-    document.getElementById("pending").appendChild(task);
-
-    await addTaskToDB({ title, description, priority });
+    const newTask = await res.json();
+    renderTask(newTask);
     form.reset();
   });
 
-  columns.forEach((column) => {
-    column.addEventListener("dragover", (e) => e.preventDefault());
-    column.addEventListener("drop", (e) => {
-      e.preventDefault();
-      const taskId = e.dataTransfer.getData("text/plain");
-      const task = document.getElementById(taskId);
-      column.appendChild(task);
-    });
-  });
+  fetchTasks();
 });
-
-function createTaskElement(title, description, priority) {
-  const taskId = `task-${Date.now()}`;
-  const task = document.createElement("div");
-  task.className = "task";
-  task.id = taskId;
-  task.draggable = true;
-  task.innerHTML = `
-    <h4>${title}</h4>
-    <p>${description || "No description"}</p>
-    <small>Priority: ${priority}</small>
-  `;
-  task.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData("text/plain", taskId);
-  });
-  return task;
-}
-
-async function addTaskToDB(task) {
-  try {
-    const response = await fetch('http://localhost:5100/api/todos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
-    if (response.ok) {
-      console.log('Task added successfully');
-    } else {
-      console.error('Failed to add task');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
