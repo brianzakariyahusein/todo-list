@@ -1,8 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { createTodo } = require('../controllers/todoController');
+const {
+  getTasks,
+  createTask,
+  updateTaskStatus,
+} = require("../controllers/todoController");
 
-// Create Task
-router.post('/', createTodo);
+router.get("/", getTasks);
+router.post("/", createTask);
+router.put("/:id/status", updateTaskStatus); // Update status task
 
 module.exports = router;
