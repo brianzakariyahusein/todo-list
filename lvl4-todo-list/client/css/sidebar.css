@@ -246,7 +246,7 @@
 
 /* Styling untuk link aktif */
 .sidebar li a.active {
-  background-color: #a5a5a582; /* Warna biru terang untuk link aktif */
+  background-color: #4e9bff; /* Warna biru terang untuk link aktif */
   color: #fff; /* Warna teks putih */
   border-radius: 8px; /* Tambahkan border-radius untuk tampilan modern */
 }
