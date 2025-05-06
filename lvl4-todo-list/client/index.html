@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>Responsive Sidebar Menu | CodingLab</title>
     <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/todoList.css" />
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- Boxicons CDN Link -->
@@ -37,25 +38,32 @@
         </li>
         <li>
           <a href="#">
+            <i class="bx bx-task"></i>
+            <span class="links_name">My Task</span>
+          </a>
+          <span class="tooltip">My Task</span>
+        </li>
+        <!-- <li>
+          <a href="#">
             <i class="bx bx-user"></i>
             <span class="links_name">User</span>
           </a>
           <span class="tooltip">User</span>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="#">
             <i class="bx bx-chat"></i>
             <span class="links_name">Messages</span>
           </a>
           <span class="tooltip">Messages</span>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="#">
             <i class="bx bx-pie-chart-alt-2"></i>
             <span class="links_name">Analytics</span>
           </a>
           <span class="tooltip">Analytics</span>
-        </li>
+        </li> -->
         <li>
           <a href="#">
             <i class="bx bx-folder"></i>
@@ -65,17 +73,10 @@
         </li>
         <li>
           <a href="#">
-            <i class="bx bx-cart-alt"></i>
-            <span class="links_name">Order</span>
+            <i class="bx bx-check-circle"></i>
+            <span class="links_name">Tasks Completed</span>
           </a>
-          <span class="tooltip">Order</span>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-heart"></i>
-            <span class="links_name">Saved</span>
-          </a>
-          <span class="tooltip">Saved</span>
+          <span class="tooltip">Tasks Completed</span>
         </li>
         <li>
           <a href="#">
@@ -97,8 +98,45 @@
       </ul>
     </div>
 
+    <!-- Home Section -->
     <section class="home-section">
-      <div class="text">Dashboard</div>
+      <div class="container">
+        <h1>
+          Level 3: To-Do List (MongoDB + Express + Description + Status +
+          Priority)
+        </h1>
+
+        <form id="todo-form">
+          <div class="container-input">
+            <input
+              type="text"
+              id="todo-title"
+              placeholder="Task title..."
+              required
+            />
+            <input
+              type="text"
+              id="todo-description"
+              placeholder="Task description..."
+            />
+          </div>
+          <div class="container-value">
+            <select id="todo-status">
+              <option value="pending" selected>Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+            <select id="todo-priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <button class="button-add" type="submit">Add</button>
+        </form>
+
+        <ul id="todo-list"></ul>
+      </div>
     </section>
     <script type="module" src="app.js"></script>
   </body>
